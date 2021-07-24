@@ -1,0 +1,2 @@
+python-dateutil>=0.1,<3
+charts.css.py>=0.4,<1
