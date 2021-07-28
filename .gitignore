@@ -129,4 +129,6 @@ dmypy.json
 .pyre/
 
 Session.vim
-website/site-packages.brython.js
+
+## Github Pages Overwriter 1.2 does not like this
+#website/site-packages.brython.js
