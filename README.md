@@ -1,54 +1,100 @@
-# brython-project-template
+# Easter Distribution
 
-## What is it?
+This project shows how Easters within a century are distributed among months and dates,
+and how Easter date swings back and forth, year after year.
+It is in action [here](https://rayluo.github.io/easter/).
 
-This template contains the following characteristics that are likely useful
-when starting a new [Brython](https://brython.info)-powered project.
+This project is also designed to be a sample of how to use
+[brip](https://pypi.org/project/brip)
+to pull in generic pure Python packages into your
+[Brython](http://brython.info/)-powered project.
 
-* The index.html embeds a loading animation to give end user a hint to be patient.
-  This can be helpful because the first time loading of Brython is slower.
-  (Note to Developer: The loading animation does *not* represent the real progress.
-  If your website stuck with the loading animation,
-  open the browser console to check for error messages.)
-* Although not a Brython-relevant feature,
-  this template includes a github workflow to deploy your each push to Github Pages
-  (After the first deployment which prepares your website into the default `gh-pages` branch,
-  you need a one-time effort to
-  [enable Github Pages](https://docs.github.com/en/github/working-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site)
-   for your github repo.)
-* The index.html automatically loads latest released version of Brython from CDN.
-  You can easily switch to use the not-yet-released latest Brython source from github.
-* The index.html references bootstrap from CDN for better layout.
-* An optional browser-console simulator, useful if you are browsing from Android device.
-  (All these can be easily comment or uncomment from the index.html.)
-* The website root directory is nested inside this project.
-  This setup would provide better separation
-  when you also creates virtual env `.venv` inside your project directory.
-  (Otherwise you could hit [a known issue](https://github.com/brython-dev/brython/issues/1603).)
 
-## How to use?
+## How to develop a project like this?
 
-You can use this repo as a template to start your own project.
+We chose to implement the following features in this sample project,
+to showcase how generic Python packages could be pulled into your project by `brip`.
 
-1. Your options are:
-   * [use this repo as a template to start your project on github](https://github.com/rayluo/brython-project-template/generate),
-   * or manually clone [this project](https://github.com/rayluo/brython-project-template)
-   * or [download its zip package](https://github.com/rayluo/brython-project-template/archive/refs/heads/main.zip)
-2. Run `python3 -m http.server` to start a web server,
-   and then visit `http://localhost:8000` to see it in action.
+* Calculate the Easter date of any given year.
+  [Easter calculation is complicated](https://www.tondering.dk/claus/cal/easter.php),
+  but it is made easy by this generic Python package
+  [python-dateutil](https://dateutil.readthedocs.io/en/stable/easter.html).
+* Show the distribution of Easters in charts,
+  with the help of this generic Python package
+  [charts.css.py](https://rayluo.github.io/charts.css.py/).
 
-That is all. Once you are familiar with this project's structure,
-you can modify it by changing the content between
-`<!-- The real project content starts from here -->` and `<!-- The real project content ends here -->`
-in `index.html`,
-and content inside `main.py`.
+So, how to build a Brython project to utilize the above 2 generic Python packages?
 
-Alternatively, if you already have an existing project,
-you can add the loading animation by including this snippet into your `index.html`
+1. Prerequisite:
+   You do *NOT* need to install those 2 packages by the normal `pip`.
+   Instead, you use `pip` to install `brip` into a virtual environment,
+   once and for all:
+   such an environment can be shared among all your Brython projects.
 
-```html
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+   Installation on Linux and macOS:
 
-<script src="https://rayluo.github.io/brython-project-template/loader.js"></script>
-<script type="text/javascript">start_loader("Loading System...")</script>
-```
+   ```
+   python3 -m venv ~/venv_central
+   source ~/venv_central/bin/activate
+   pip install brip
+   ```
+
+   Installation on Windows:
+
+   ```
+   py -m venv $HOME\venv_central
+   $HOME\venv_central\Scripts\activate
+   pip install brip
+   ```
+
+2. Create an empty Brython project.
+   You can choose to clone or download this
+   [template Brython project](https://github.com/rayluo/brython-project-template).
+
+3. Inside your Brython project's webroot directory
+   (i.e. the directory containing your index.html),
+   create a `brequirements.txt` file containing your dependencies.
+   After you finish that, you will see this.
+
+   ```
+   cd ~/easter/website
+   cat brequirements.txt
+   ```
+
+   You are expected to fill it with this content, optionally with their version ranges.
+
+   ```
+   python-dateutil<3
+   charts.css.py>=0.4.0,<1
+   ```
+
+   For what it's worth, the `python-dateutil` package has its own dependency on `six`,
+   but you don't have to know, `brip` will automatically pull in all dependencies for you.
+
+4. Run `brip install -r brequirements.txt`.
+   This will generate a `site-packages.brython.js` file,
+   which contains the packages that you declared, as well as all their dependencies.
+
+5. In your Brython project's `index.html`, include the `brython.js` as usual,
+   and you would typically also need to include the `brython_stdlib.js`,
+   lastly you include the `site-packages.brython.js` that we generated just now.
+
+   That is all.
+   Now you can use `import dateutil` and `import charts.css` in your Brython project.
+
+6. Once you finish your project, you can deploy it with the generated
+   `site-packages.brython.js`.
+
+   Alternatively, this project chooses to run step 4 on-the-fly,
+   so that you do not even need to hardcode a copy of `site-packages.brython.js`
+   inside your project's code base and repo history.
+
+
+## Caveat
+
+The two external dependencies, ``python-dateutil` and `charts.css.py`,
+work smooth inside Brython.
+But the reality is, not every PyPI packages would work fine.
+Please refer to the [limitations of brip](https://github.com/rayluo/brip#limitations)
+for more details.
+

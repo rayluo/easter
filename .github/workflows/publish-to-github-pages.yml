@@ -13,8 +13,13 @@ jobs:
       - name: Check out
         uses: actions/checkout@v2
 
+      - name: Build brequirements.txt
+        run: |
+          pip install "brip>=0.2.1,<1"
+          brip install -r website/brequirements.txt -t website
+
       - name: Publish to GitHub Pages
-        uses: rayluo/github-pages-overwriter@v1.1
+        uses: rayluo/github-pages-overwriter@v1.2
         with:
           source-directory: website
 

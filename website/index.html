@@ -10,19 +10,43 @@
     <!-- Fontawesome CSS required by the loader -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
-    <title>My Cool Brython Project</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/charts.css/dist/charts.min.css">
+    <style>
+    .charts-css {  /* You have to use this class name */
+      height: 400px;  /* Most charts need some height to operate */
+      margin: 3em auto;  /* Optional */
+    }
+    .charts-css.legend.legend-inline {  /* You have to use this class name */
+      height: 3em;  /* Optional */
+    }
+    </style>
+
+    <title>Easter Distribution - A Demo Project for Brip</title>
   </head>
   <body id="body" onload="brython()" class="container">
 
     <!-- The real project content starts from here -->
-    <h2>Echo</h2>
-    <p>Written in Python, hosted as a frontend static web page, powered by Brython.</p>
-    <p>Enter your message here:</p>
-    <input type="text" id="message" value="hello world" class="form-control"></input>
-    <input type="button" id="say" value="Say it"></input>
+    <h1>When is Easter?</h1>
+    Easter Sunday is the first Sunday after the first full moon on or after the vernal equinox.
+    The calculation of Easter is complicated because it is linked to (an inaccurate version of) the Hebrew calendar.
+    Much more information is available from <a href="https://www.tondering.dk/claus/cal/easter.php" target=_blank>The Calendar FAQ</a>.
+    Easter happens at different dates each year. How different?
+    <label for="year_starts_at" class="form-label">
+      Choose a year range below and see how the Easters distribute inside that range.
+    </label>
+    <select id="year_starts_at" class="form-select" aria-label="Default select example">
+      <option value="1700">1700-1799</option>
+      <option value="1800">1800-1899</option>
+      <option value="1900">1900-1999</option>
+      <option value="2000">2000-2099</option>
+      <option value="2100">2100-2199</option>
+    </select>
+
+    <input class="btn btn-primary" type="button" id="trigger" value="Analyze"></input>
     <hr></hr>
-    <pre id="output"></pre>
-    <a href="https://github.com/rayluo/brython-project-template"><img style="position: absolute; top: 0; right: 0; border: 0; z-index:100;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub"></a>
+    <div id="easters_per_month"></div>
+    <div id="easters_per_date"></div>
+    <div id="year_by_year"></div>
     <!--
       Your main logic could go into a dedicated .py file,
       so that the line number in error trace would correctly map into your .py file.
@@ -60,6 +84,7 @@
     <!-- Use the following two to replace the above CDN, if you want to use not-yet-released Brython code base -->
     <!--<script src="https://raw.githack.com/brython-dev/brython/master/www/src/brython.js"></script>-->
     <!--<script src="https://raw.githack.com/brython-dev/brython/master/www/src/brython_stdlib.js"></script>-->
+    <script src="site-packages.brython.js"></script>
 
     <!--
     On the first run, the parsing of your python code could take a few seconds.
