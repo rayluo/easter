@@ -85,14 +85,18 @@ So, how to build a Brython project to utilize the above 2 generic Python package
 6. Once you finish your project, you can deploy it with the generated
    `site-packages.brython.js`.
 
-   Alternatively, this project chooses to run step 4 on-the-fly,
-   so that you do not even need to hardcode a copy of `site-packages.brython.js`
-   inside your project's code base and repo history.
+   Alternatively, this project chooses to
+   [run step 4 on-the-fly via Github Actions](https://github.com/rayluo/easter/blob/main/.github/workflows/publish-to-github-pages.yml#L16-L19),
+   and then [deploy the website to Github Pages](https://github.com/rayluo/easter/blob/main/.github/workflows/publish-to-github-pages.yml#L21-L24)
+   (with the help from another tool named [Github Page Overwriter](https://github.com/rayluo/github-pages-overwriter)).
+   The end result is you do not even need to hardcode a copy of `site-packages.brython.js`
+   inside your project's code base.
+   See how clean our [code base](https://github.com/rayluo/easter/tree/main/website) is.
 
 
 ## Caveat
 
-The two external dependencies, ``python-dateutil` and `charts.css.py`,
+The two external dependencies, `python-dateutil` and `charts.css.py`,
 work smooth inside Brython.
 But the reality is, not every PyPI packages would work fine.
 Please refer to the [limitations of brip](https://github.com/rayluo/brip#limitations)
