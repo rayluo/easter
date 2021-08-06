@@ -43,25 +43,29 @@ So, how to build a Brython project to utilize the above 2 generic Python package
 
    ```
    py -m venv $HOME\venv_central
-   $HOME\venv_central\Scripts\activate
+   $HOME\venv_central\Scripts\activate.bat
    pip install brip
    ```
 
 2. Create an empty Brython project.
-   You can choose to clone or download this
+   You can start from scratch, or clone or download this
    [template Brython project](https://github.com/rayluo/brython-project-template).
 
 3. Inside your Brython project's webroot directory
    (i.e. the directory containing your index.html),
    create a `brequirements.txt` file containing your dependencies.
-   After you finish that, you will see this.
+   After you finish that, your project structure could be something like this.
 
-   ```
-   cd ~/easter/website
-   cat brequirements.txt
-   ```
+    ```
+    easter
+    ├── website
+    │   ├── index.html
+    │   ├── ...
+    │   └── brequirements.txt
+    └── README.md
+    ```
 
-   You are expected to fill it with this content, optionally with their version ranges.
+   Your `brequirements.txt` declares dependencies, optionally with their version ranges.
 
    ```
    python-dateutil<3
